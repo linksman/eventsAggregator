@@ -15,17 +15,11 @@ export type Summary = {
   topEndpoints: EndpointCount[];
 };
 
-export type Event = {
-  customerId: string;
-  endpoint: string;
-  timestamp: string;
-  statusCode: number;
-  latencyMs: number;
-};
+import type { EventInput } from '../validation/schemas.js';
 
 const store = new Map<string, CustomerStats>();
 
-export function recordEvent(event: Event): void {
+export function recordEvent(event: EventInput): void {
   let stats = store.get(event.customerId);
   if (!stats) {
     stats = { totalRequests: 0, errorCount: 0, totalLatencyMs: 0, endpointCounts: new Map() };

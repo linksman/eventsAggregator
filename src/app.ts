@@ -29,7 +29,7 @@ app.use('/customers', customersRouter);
 export function errorHandler(err: Error & { status?: number }, _req: Request, res: Response, _next: NextFunction): void {
   const status = err.status ?? 500;
   if (status >= 400 && status < 500) {
-    res.status(status).json({ error: err.message });
+    res.status(status).json({ error: 'Bad request' });
   } else {
     res.status(500).json({ error: 'Internal server error' });
   }

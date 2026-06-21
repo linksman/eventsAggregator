@@ -56,6 +56,19 @@ describe('validateEvent', () => {
     expect(() => validateEvent({ ...validPayload, statusCode: 404 })).not.toThrow();
   });
 
+  it('throws when statusCode is below 100', () => {
+    expect(() => validateEvent({ ...validPayload, statusCode: 99 })).toThrow();
+  });
+
+  it('throws when statusCode is above 599', () => {
+    expect(() => validateEvent({ ...validPayload, statusCode: 600 })).toThrow();
+  });
+
+  it('accepts statusCode at boundary values 100 and 599', () => {
+    expect(() => validateEvent({ ...validPayload, statusCode: 100 })).not.toThrow();
+    expect(() => validateEvent({ ...validPayload, statusCode: 599 })).not.toThrow();
+  });
+
   it('throws when timestamp is not ISO 8601', () => {
     expect(() => validateEvent({ ...validPayload, timestamp: 'not-a-date' })).toThrow();
   });

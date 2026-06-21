@@ -4,7 +4,7 @@ const eventSchema = z.object({
   customerId: z.string().min(1),
   endpoint: z.string().min(1),
   timestamp: z.string().datetime(),
-  statusCode: z.number().int(),
+  statusCode: z.number().int().min(100).max(599),
   latencyMs: z.number().nonnegative(),
 });
 
