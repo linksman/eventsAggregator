@@ -1,11 +1,16 @@
 import app from './app.js';
+import logger from './logger.js';
 
 const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
 
 const server = app.listen(PORT, () => {
-  console.log(`Server listening on port ${PORT}`);
+  logger.info({ port: PORT }, 'server started');
 });
 
 process.on('SIGTERM', () => {
-  server.close(() => process.exit(0));
+  logger.info('SIGTERM received, shutting down');
+  server.close(() => {
+    logger.info('server closed');
+    process.exit(0);
+  });
 });
