@@ -1,11 +1,18 @@
 import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 import eventsRouter from './routes/events.js';
 import customersRouter from './routes/customers.js';
 import { registry } from './metrics.js';
 import logger from './logger.js';
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 const app = express();
+
+// Serve test UI without CSP so inline scripts work
+app.use('/', express.static(join(__dirname, '../public'), { index: 'index.html' }));
 
 app.use(helmet());
 app.use(express.json({ limit: '100kb' }));
